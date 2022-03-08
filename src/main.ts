@@ -2,7 +2,6 @@ import * as vscode from "vscode";
 import { getFormatDate } from "./date";
 
 export const genJSDoc = () => {
-  console.log("bbbbbb");
   const editor = vscode.window.activeTextEditor;
   if (!editor) {
     return;
@@ -34,7 +33,9 @@ export const genJSDoc = () => {
     const author: string = configuration.get("author") || "";
     author && (text += `* @author ${author}\r`);
     // 日期
-    text += `* @date ${getFormatDate("YYYY-MM-DD", new Date())}\r`;
+    const dateOption: boolean = configuration.get("date") || false;
+    dateOption &&
+      (text += `* @date ${getFormatDate("YYYY-MM-DD", new Date())}\r`);
     // 参数
     text += paramList
       .map((paramName) => `* @param {any} ${paramName}\r`)
